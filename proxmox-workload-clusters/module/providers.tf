@@ -13,15 +13,22 @@ terraform {
     helm = {
       source  = "hashicorp/helm"
       version = ">= 2.12"
+      configuration_aliases = [
+        helm.workloadCluster
+      ]
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
       version = ">= 2.27"
-    }    
+      configuration_aliases = [
+        kubernetes.centralK0smotronCluster,
+        kubernetes.workloadCluster
+      ]
+    }
     tls = {
       source  = "hashicorp/tls"
       version = ">= 4.0"
-    }  
+    }
   }
 }
 
@@ -29,28 +36,5 @@ provider "proxmox" {
   endpoint  = var.proxmox_api_url
   insecure = true
   username = var.virtual_environment_username
-  password = var.virtual_environment_password  
-}
-
-provider "kubernetes" {
-  alias = "centralK0smotronCluster"
-}
-
-provider "kubernetes" {
-  alias = "workloadCluster"
-
-  host                   = local.kubeconfig.clusters[0].cluster.server
-  client_certificate     = base64decode(local.kubeconfig.users[0].user["client-certificate-data"])
-  client_key             = base64decode(local.kubeconfig.users[0].user["client-key-data"])
-  cluster_ca_certificate = base64decode(local.kubeconfig.clusters[0].cluster["certificate-authority-data"])
-}
-
-provider "helm" {
-  alias = "workloadCluster"
-  kubernetes {
-  host                   = local.kubeconfig.clusters[0].cluster.server
-  client_certificate     = base64decode(local.kubeconfig.users[0].user["client-certificate-data"])
-  client_key             = base64decode(local.kubeconfig.users[0].user["client-key-data"])
-  cluster_ca_certificate = base64decode(local.kubeconfig.clusters[0].cluster["certificate-authority-data"])
-  }
+  password = var.virtual_environment_password
 }

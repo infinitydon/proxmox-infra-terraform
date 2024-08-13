@@ -74,7 +74,7 @@ runcmd:
     echo "k0s worker service is active."
   - wget https://github.com/DPDK/dpdk/raw/main/usertools/dpdk-devbind.py -O /usr/local/bin/dpdk-devbind.py
   - chmod +x /usr/local/bin/dpdk-devbind.py
-  - sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="/& default_hugepagesz=1GB hugepagesz=1G hugepages=4 /' /etc/default/grub
+  - sed -i 's/GRUB_CMDLINE_LINUX="/&default_hugepagesz=1GB hugepagesz=1G hugepages=4/' /etc/default/grub
   - update-grub
   - systemctl enable config-sriov.service
   - systemctl start config-sriov.service

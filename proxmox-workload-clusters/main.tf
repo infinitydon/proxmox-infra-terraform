@@ -1,6 +1,12 @@
 module "workload_cluster" {
 source = "./module"
 
+providers = {
+ kubernetes.centralK0smotronCluster = kubernetes.centralK0smotronCluster
+ kubernetes.workloadCluster  = kubernetes.workloadCluster
+ helm.workloadCluster  = helm.workloadCluster
+}
+
 proxmox_api_url = var.proxmox_api_url
 proxmox_host_node    = var.proxmox_host_node
 boot_disk_storage_pool    = var.boot_disk_storage_pool

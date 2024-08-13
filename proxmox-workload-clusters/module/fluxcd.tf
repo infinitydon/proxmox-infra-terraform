@@ -28,7 +28,9 @@ resource "kubernetes_secret" "github_deploy_key" {
 
 resource "helm_release" "flux_operator" {
   provider = helm.workloadCluster
-  depends_on = [kubernetes_namespace.flux_system]
+  depends_on = [kubernetes_namespace.flux_system,
+                proxmox_virtual_environment_vm.ubuntu_vm
+               ]
 
   name       = "flux-operator"
   namespace  = "flux-system"
