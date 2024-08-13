@@ -23,7 +23,7 @@ data "kubernetes_secret" "workload_github_ssh_key" {
 }
 
 locals {
-  kubeconfig = jsondecode(base64decode(data.kubernetes_secret.kubeconfig.data["value"]))
-  decoded_token = base64decode(data.kubernetes_secret.k0smotron_join_token.data["token"])
-  github_ssh_key = base64decode(data.kubernetes_secret.workload_github_ssh_key.data["ssh-privatekey"])
+  kubeconfig = yamldecode(data.kubernetes_secret.kubeconfig.data["value"])
+  decoded_token = data.kubernetes_secret.k0smotron_join_token.data["token"]
+  github_ssh_key = data.kubernetes_secret.workload_github_ssh_key.data["ssh-privatekey"]
 }
