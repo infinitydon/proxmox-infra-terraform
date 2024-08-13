@@ -61,6 +61,7 @@ runcmd:
   - netplan generate
   - netplan apply
   - hostnamectl set-hostname `dmesg | grep -i prox | awk '{print $5}' | sed 's/,//g'`
+  - sleep 30
   - curl -sSLf https://get.k0s.sh | K0S_VERSION=v1.30.3+k0s.0 sh
   - k0s install worker --token-file /etc/k0smotron-token
   - k0s start
